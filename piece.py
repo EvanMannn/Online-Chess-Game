@@ -59,8 +59,8 @@ class Piece:
         else:
             drawThis = B[self.img]
 
-        x = (4 - self.col) + round(self.startX + (self.col * self.boardSize[2] / 8))
-        y = 3 + round(self.startY + (self.row * self.boardSize[3] / 8))
+        x = (4 - self.col) + round(self.startX + (self.col * self.boardSize[0] / 8))
+        y = 3 + round(self.startY + (self.row * self.boardSize[1] / 8))
 
         if self.selected and self.color == color:
             pygame.draw.rect(win, selectedColour, (x, y, pieceImgSize[0] * 1.3, pieceImgSize[1] * 1.3), 4)
