@@ -9,9 +9,11 @@ import pygame
 
 
 class Board:
-    rect = (113, 113, 525, 525)
-    startX = rect[0]
-    startY = rect[1]
+    origin = (113, 113)
+    boardSize = (525, 525)
+    
+    startX = origin[0]
+    startY = origin[1]
     def __init__(self, rows, cols):
         self.rows = rows
         self.cols = cols
@@ -82,16 +84,18 @@ class Board:
                     self.board[i][j].update_valid_moves(self.board)
 
     def draw(self, win, color):
+        circleColour = (0, 0, 255)
+
         if self.last and color == self.turn:
             y, x = self.last[0]
             y1, x1 = self.last[1]
 
-            xx = (4 - x) +round(self.startX + (x * self.rect[2] / 8))
-            yy = 3 + round(self.startY + (y * self.rect[3] / 8))
-            pygame.draw.circle(win, (0,0,255), (xx+32, yy+30), 34, 4)
-            xx1 = (4 - x) + round(self.startX + (x1 * self.rect[2] / 8))
-            yy1 = 3+ round(self.startY + (y1 * self.rect[3] / 8))
-            pygame.draw.circle(win, (0, 0, 255), (xx1 + 32, yy1 + 30), 34, 4)
+            xx = (4 - x) +round(self.startX + (x * self.boardSize[0] / 8))
+            yy = 3 + round(self.startY + (y * self.boardSize[1] / 8))
+            pygame.draw.circle(win, circleColour, (xx+32, yy+30), 34, 4)
+            xx1 = (4 - x) + round(self.startX + (x1 * self.boardSize[0] / 8))
+            yy1 = 3+ round(self.startY + (y1 * self.boardSize[1] / 8))
+            pygame.draw.circle(win, circleColour, (xx1 + 32, yy1 + 30), 34, 4)
 
         s = None
         for i in range(self.rows):
