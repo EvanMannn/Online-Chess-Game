@@ -45,23 +45,30 @@ pygame.font.init()
 
 board = pygame.transform.scale(pygame.image.load(os.path.join("img","board_alt.png")), (750, 750))
 chessbg = pygame.image.load(os.path.join("img", "chessbg.png"))
-rect = (113,113,525,525)
+
+origin = (113, 113)
+boardSize = (525,525)
 
 turn = "w"
 
 
 def menu_screen(win, name):
     global bo, chessbg
+
+    menuFontSize = 50
+    menuFontColour = (255, 0, 0)
+    menuTextHeight = 500
+
     run = True
     offline = False
 
     while run:
         win.blit(chessbg, (0,0))
-        small_font = pygame.font.SysFont("comicsans", 50)
+        small_font = pygame.font.SysFont("comicsans", menuFontSize)
         
         if offline:
-            off = small_font.render("Server Offline, Try Again Later...", 1, (255, 0, 0))
-            win.blit(off, (width / 2 - off.get_width() / 2, 500))
+            off = small_font.render("Server Offline, Try Again Later...", 1, menuFontColour)
+            win.blit(off, (width / 2 - off.get_width() / 2, menuTextHeight))
 
         pygame.display.update()
 
@@ -84,6 +91,27 @@ def menu_screen(win, name):
 
     
 def redraw_gameWindow(win, bo, p1, p2, color, ready):
+    #Font sizes
+    fontSize = 30
+    largeFontSize = 80
+
+    #Font colours
+    timerFontColour = (255, 255, 255)
+    quitTextFontColour = (255, 255, 255)
+    spectatorLabelFontColour = (255, 0, 0)
+    playerFontColour = (255, 0, 0)
+
+    #Text positions
+    p1TimerPos = (520,10)
+    p2TimerPos = (520, 700)
+    quitTextPos = (10, 20)
+
+    #Center alligned text hieghts
+    playerModeTextHeight = 10
+    playerTurnTextHeight = 700
+    waitingTextHeight = 300
+
+
     win.blit(board, (0, 0))
     bo.draw(win, color)
 
@@ -94,57 +122,62 @@ def redraw_gameWindow(win, bo, p1, p2, color, ready):
     if int(p2%60) < 10:
         formatTime2 = formatTime2[:-1] + "0" + formatTime2[-1]
 
-    font = pygame.font.SysFont("comicsans", 30)
+    font = pygame.font.SysFont("comicsans", fontSize)
     try:
-        txt = font.render(bo.p1Name + "\'s Time: " + str(formatTime2), 1, (255, 255, 255))
-        txt2 = font.render(bo.p2Name + "\'s Time: " + str(formatTime1), 1, (255,255,255))
+        txt = font.render(bo.p1Name + "\'s Time: " + str(formatTime2), 1, timerFontColour)
+        txt2 = font.render(bo.p2Name + "\'s Time: " + str(formatTime1), 1, timerFontColour)
     except Exception as e:
         print(e)
-    win.blit(txt, (520,10))
-    win.blit(txt2, (520, 700))
+    win.blit(txt, p1TimerPos)
+    win.blit(txt2, p2TimerPos)
 
-    txt = font.render("Press q to Quit", 1, (255, 255, 255))
-    win.blit(txt, (10, 20))
+    txt = font.render("Press q to Quit", 1, quitTextFontColour)
+    win.blit(txt, quitTextPos)
 
     if color == "s":
-        txt3 = font.render("SPECTATOR MODE", 1, (255, 0, 0))
-        win.blit(txt3, (width/2-txt3.get_width()/2, 10))
+        txt3 = font.render("SPECTATOR MODE", 1, spectatorLabelFontColour)
+        win.blit(txt3, (width/2-txt3.get_width()/2, playerModeTextHeight))
 
     if not ready:
         show = "Waiting for Player"
         if color == "s":
             show = "Waiting for Players"
-        font = pygame.font.SysFont("comicsans", 80)
+        font = pygame.font.SysFont("comicsans", largeFontSize)
         txt = font.render(show, 1, (255, 0, 0))
-        win.blit(txt, (width/2 - txt.get_width()/2, 300))
+        win.blit(txt, (width/2 - txt.get_width()/2, waitingTextHeight))
 
     if not color == "s":
-        font = pygame.font.SysFont("comicsans", 30)
+        font = pygame.font.SysFont("comicsans", fontSize)
         if color == "w":
-            txt3 = font.render("YOU ARE WHITE", 1, (255, 0, 0))
-            win.blit(txt3, (width / 2 - txt3.get_width() / 2, 10))
+            txt3 = font.render("YOU ARE WHITE", 1, playerFontColour)
+            win.blit(txt3, (width / 2 - txt3.get_width() / 2, playerModeTextHeight))
         else:
-            txt3 = font.render("YOU ARE BLACK", 1, (255, 0, 0))
-            win.blit(txt3, (width / 2 - txt3.get_width() / 2, 10))
+            txt3 = font.render("YOU ARE BLACK", 1, playerFontColour)
+            win.blit(txt3, (width / 2 - txt3.get_width() / 2, playerModeTextHeight))
 
         if bo.turn == color:
-            txt3 = font.render("YOUR TURN", 1, (255, 0, 0))
-            win.blit(txt3, (width / 2 - txt3.get_width() / 2, 700))
+            txt3 = font.render("YOUR TURN", 1, playerFontColour)
+            win.blit(txt3, (width / 2 - txt3.get_width() / 2, playerTurnTextHeight))
         else:
-            txt3 = font.render("THEIR TURN", 1, (255, 0, 0))
-            win.blit(txt3, (width / 2 - txt3.get_width() / 2, 700))
+            txt3 = font.render("THEIR TURN", 1, playerFontColour)
+            win.blit(txt3, (width / 2 - txt3.get_width() / 2, playerTurnTextHeight))
 
     pygame.display.update()
 
 
 def end_screen(win, text):
+    fontSize = 80
+    fontColour = (255, 0, 0)
+    timeOut = 3000
+    textHeight = 300
+
     pygame.font.init()
-    font = pygame.font.SysFont("comicsans", 80)
-    txt = font.render(text,1, (255,0,0))
-    win.blit(txt, (width / 2 - txt.get_width() / 2, 300))
+    font = pygame.font.SysFont("comicsans", fontSize)
+    txt = font.render(text,1, fontColour)
+    win.blit(txt, (width / 2 - txt.get_width() / 2, textHeight))
     pygame.display.update()
 
-    pygame.time.set_timer(pygame.USEREVENT+1, 3000)
+    pygame.time.set_timer(pygame.USEREVENT+1, timeOut)
 
     run = True
     while run:
@@ -165,12 +198,12 @@ def click(pos):
     """
     x = pos[0]
     y = pos[1]
-    if rect[0] < x < rect[0] + rect[2]:
-        if rect[1] < y < rect[1] + rect[3]:
-            divX = x - rect[0]
-            divY = y - rect[1]
-            i = int(divX / (rect[2]/8))
-            j = int(divY / (rect[3]/8))
+    if origin[0] < x < origin[0] + boardSize[0]:
+        if origin[1] < y < origin[1] + boardSize[1]:
+            divX = x - origin[0]
+            divY = y - origin[1]
+            i = int(divX / (boardSize[0]/8))
+            j = int(divY / (boardSize[1]/8))
             return i, j
 
     return -1, -1
