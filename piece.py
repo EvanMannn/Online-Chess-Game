@@ -1,6 +1,11 @@
 import pygame
 import os
 
+pieceImgSize = (55, 55)
+origin = (113, 113)
+boardSize = (525, 525)
+selectedColour = (255, 0, 0)
+
 b_bishop = pygame.image.load(os.path.join("img", "black_bishop.png"))
 b_king = pygame.image.load(os.path.join("img", "black_king.png"))
 b_knight = pygame.image.load(os.path.join("img", "black_knight.png"))
@@ -22,17 +27,16 @@ B = []
 W = []
 
 for img in b:
-    B.append(pygame.transform.scale(img, (55, 55)))
+    B.append(pygame.transform.scale(img, pieceImgSize))
 
 for img in w:
-    W.append(pygame.transform.scale(img, (55, 55)))
+    W.append(pygame.transform.scale(img, pieceImgSize))
 
 
 class Piece:
-    img = -1
-    rect = (113, 113, 525, 525)
-    startX = rect[0]
-    startY = rect[1]
+    img = -1    
+    startX = origin[0]
+    startY = origin[1]
 
     def __init__(self, row, col, color):
         self.row = row
@@ -55,11 +59,11 @@ class Piece:
         else:
             drawThis = B[self.img]
 
-        x = (4 - self.col) + round(self.startX + (self.col * self.rect[2] / 8))
-        y = 3 + round(self.startY + (self.row * self.rect[3] / 8))
+        x = (4 - self.col) + round(self.startX + (self.col * self.boardSize[2] / 8))
+        y = 3 + round(self.startY + (self.row * self.boardSize[3] / 8))
 
         if self.selected and self.color == color:
-            pygame.draw.rect(win, (255, 0, 0), (x, y, 62, 62), 4)
+            pygame.draw.rect(win, selectedColour, (x, y, pieceImgSize[0] * 1.3, pieceImgSize[1] * 1.3), 4)
 
         win.blit(drawThis, (x, y))
 
