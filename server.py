@@ -9,6 +9,12 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server = "localhost"
 port = 5555
 
+maxGameTime = 900
+gameCommandByteLen = 8192
+specCommandByteLen = 128
+maxConnections = 6
+
+
 server_ip = socket.gethostbyname(server)
 
 try:
@@ -35,6 +41,7 @@ def read_specs():
         with open("specs.txt", "r") as f:
             for line in f:
                 spectartor_ids.append(line.strip())
+
     except:
         print("[ERROR] No specs.txt file found, creating one...")
         open("specs.txt", "w")
@@ -69,7 +76,7 @@ def threaded_client(conn, game, spec=False):
                 break
 
             try:
-                d = conn.recv(8192 * 3)
+                d = conn.recv(gameCommandByteLen * 3)
                 data = d.decode("utf-8")
                 if not d:
                     break
@@ -102,9 +109,9 @@ def threaded_client(conn, game, spec=False):
 
                     if bo.ready:
                         if bo.turn == "w":
-                            bo.time1 = 900 - (time.time() - bo.startTime) - bo.storedTime1
+                            bo.time1 = maxGameTime - (time.time() - bo.startTime) - bo.storedTime1
                         else:
-                            bo.time2 = 900 - (time.time() - bo.startTime) - bo.storedTime2
+                            bo.time2 = maxGameTime - (time.time() - bo.startTime) - bo.storedTime2
 
                     sendData = pickle.dumps(bo)
                     #print("Sending board to player", currentId, "in game", game)
@@ -135,7 +142,7 @@ def threaded_client(conn, game, spec=False):
             available_games = list(games.keys())
             bo = games[available_games[game_ind]]
             try:
-                d = conn.recv(128)
+                d = conn.recv(specCommandByteLen)
                 data = d.decode("utf-8")
                 if not d:
                     break
@@ -169,7 +176,7 @@ def threaded_client(conn, game, spec=False):
 
 while True:
     read_specs()
-    if connections < 6:
+    if connections < maxConnections:
         conn, addr = s.accept()
         spec = False
         g = -1
