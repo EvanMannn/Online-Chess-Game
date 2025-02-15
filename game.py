@@ -52,7 +52,7 @@ boardSize = (525,525)
 turn = "w"
 
 
-def menu_screen(win, name):
+def menu_screen(win):
     global bo, chessbg
 
     menuFontSize = 50
