@@ -296,9 +296,8 @@ def main():
     menu_screen(win)
 
 
-name = input("Please type your name: ")
 width = 750
 height = 750
 win = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Chess Game")
-menu_screen(win, name)
+menu_screen(win)
