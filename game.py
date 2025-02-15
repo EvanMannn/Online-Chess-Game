@@ -127,6 +127,7 @@ def redraw_gameWindow(win, bo, p1, p2, color, ready):
         txt = font.render(bo.p1Name + "\'s Time: " + str(formatTime2), 1, timerFontColour)
         txt2 = font.render(bo.p2Name + "\'s Time: " + str(formatTime1), 1, timerFontColour)
     except Exception as e:
+        print("EXCEPTION: Error rendering the fonts for the time remaining for each player")
         print(e)
     win.blit(txt, p1TimerPos)
     win.blit(txt2, p2TimerPos)
