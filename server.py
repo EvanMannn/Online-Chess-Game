@@ -120,7 +120,7 @@ def threaded_client(conn, game, spec=False):
                 conn.sendall(sendData)
 
             except Exception as e:
-                print("EXCEPTION: Error trying to create a connection between clients")
+                print("EXCEPTION: Error trying to read game command from server")
                 print(e)
         
         connections -= 1
