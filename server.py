@@ -21,6 +21,7 @@ try:
     s.bind((server, port))
 
 except socket.error as e:
+    print("EXCEPTION: Error in trying to bind the server socket")
     print(str(e))
 
 s.listen()
