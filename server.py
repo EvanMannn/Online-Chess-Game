@@ -169,6 +169,7 @@ def threaded_client(conn, game, spec=False):
                     conn.sendall(sendData)
 
             except Exception as e:
+                print("EXCEPTION: Error trying to recieve spectator command from server")
                 print(e)
 
         print("[DISCONNECT] Spectator left game", game)
