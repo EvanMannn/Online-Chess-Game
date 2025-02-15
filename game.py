@@ -241,6 +241,7 @@ def main():
         try:
             redraw_gameWindow(win, bo, p1Time, p2Time, color, bo.ready)
         except Exception as e:
+            print("EXCEPTION: A player has left the game \nEnding the game...")
             print(e)
             end_screen(win, "Other player left")
             run = False
