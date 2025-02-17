@@ -35,6 +35,9 @@ spectartor_ids = []
 specs = 0
 
 def read_specs():
+    '''
+    Function to read specs.txt to determine the spectators of the chess game
+    '''
     global spectartor_ids
 
     spectartor_ids = []
@@ -49,6 +52,12 @@ def read_specs():
 
 
 def threaded_client(conn, game, spec=False):
+    '''
+    Function for handling communication between two players\n
+    \t - conn: Connection object between the two players that data is sent over\n
+    \t - game (Board object): the board object holding the game data for the connection\n
+    \t - spec (Default = false) (boolean): whether or not this client is a spectator
+    '''
     global pos, games, currentId, connections, specs
 
     if not spec:
