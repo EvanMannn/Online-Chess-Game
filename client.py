@@ -4,6 +4,9 @@ import time
 
 class Network:
     def __init__(self):
+        '''
+        Network class initializer
+        '''
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.host = "localhost"
         self.port = 5555
@@ -12,10 +15,16 @@ class Network:
         self.board = pickle.loads(self.board)
 
     def connect(self):
+        '''
+        Establishe a connection within the socket of this network
+        '''
         self.client.connect(self.addr)
         return self.client.recv(4096*8)
 
     def disconnect(self):
+        '''
+        Closes the connection on this network
+        '''
         self.client.close()
 
     def send(self, data, pick=False):
