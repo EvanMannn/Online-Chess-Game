@@ -39,6 +39,12 @@ class Piece:
     startY = origin[1]
 
     def __init__(self, row, col, color):
+        '''
+        Initializes the piece object\n
+        \t - row (int): row on the board where the piece resides\n
+        \t - col (int): column on the board where the piece resides\n
+        \t - color (char): color of the piece
+        '''
         self.row = row
         self.col = col
         self.color = color
@@ -48,12 +54,24 @@ class Piece:
         self.pawn = False
 
     def isSelected(self):
+        '''
+        :returns: boolean value of whether or not the piece is selected
+        '''
         return self.selected
 
     def update_valid_moves(self, board):
+        '''
+        Setter for the valid moves list of the piece\n
+        \t - board (Board object): current board state 
+        '''
         self.move_list = self.valid_moves(board)
 
     def draw(self, win, color):
+        '''
+        Function to draw the piece in the window\n
+        \t - win (pygame Window object): window that displays the game\n
+        \t - color (char): color of the piece to draw
+        '''
         if self.color == "w":
             drawThis = W[self.img]
         else:
@@ -77,10 +95,17 @@ class Piece:
                 pygame.draw.circle(win, (255, 0, 0), (x, y), 10)
 
     def change_pos(self, pos):
+        '''
+        Setter for the position of the piece\n
+        \t - pos (int tuple): row and column position to set for the piece
+        '''
         self.row = pos[0]
         self.col = pos[1]
 
     def __str__(self):
+        '''
+        :returns: formatted string of the position of the piece
+        '''
         return str(self.col) + " " + str(self.row)
 
 
@@ -88,6 +113,10 @@ class Bishop(Piece):
     img = 0
 
     def valid_moves(self, board):
+        '''
+        Uses the board state to determine the valid moves a piece has\n
+        \t - board (Board object) Current board state
+        '''
         i = self.row
         j = self.col
 
@@ -168,6 +197,10 @@ class King(Piece):
         self.king = True
 
     def valid_moves(self, board):
+        '''
+        Uses the board state to determine the valid moves a piece has\n
+        \t - board (Board object) Current board state
+        '''
         i = self.row
         j = self.col
 
@@ -244,6 +277,10 @@ class Knight(Piece):
     img = 2
 
     def valid_moves(self, board):
+        '''
+        Uses the board state to determine the valid moves a piece has\n
+        \t - board (Board object) Current board state
+        '''
         i = self.row
         j = self.col
 
@@ -316,12 +353,19 @@ class Pawn(Piece):
     img = 3
 
     def __init__(self, row, col, color):
+        '''
+        Initialization override. Provides added information for the pawn 
+        '''
         super().__init__(row, col, color)
         self.first = True
         self.queen = False
         self.pawn = True
 
     def valid_moves(self, board):
+        '''
+        Uses the board state to determine the valid moves a piece has\n
+        \t - board (Board object) Current board state
+        '''
         i = self.row
         j = self.col
 
@@ -392,6 +436,10 @@ class Queen(Piece):
     img = 4
 
     def valid_moves(self, board):
+        '''
+        Uses the board state to determine the valid moves a piece has\n
+        \t - board (Board object) Current board state
+        '''
         i = self.row
         j = self.col
 
@@ -504,6 +552,10 @@ class Rook(Piece):
     img = 5
 
     def valid_moves(self, board):
+        '''
+        Uses the board state to determine the valid moves a piece has\n
+        \t - board (Board object) Current board state
+        '''
         i = self.row
         j = self.col
 
