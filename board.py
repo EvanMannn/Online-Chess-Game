@@ -15,6 +15,11 @@ class Board:
     startX = origin[0]
     startY = origin[1]
     def __init__(self, rows, cols):
+        '''
+        Board initialization function\n
+        \t - rows (int): number of rows on the board\n
+        \t - cols (int): number of columns on the board\n
+        '''
         self.rows = rows
         self.cols = cols
 
@@ -78,12 +83,20 @@ class Board:
         self.startTime = time.time()
 
     def update_moves(self):
+        '''
+        Function to update the valid moves of all remaining pieces\n
+        '''
         for i in range(self.rows):
             for j in range(self.cols):
                 if self.board[i][j] != 0:
                     self.board[i][j].update_valid_moves(self.board)
 
     def draw(self, win, color):
+        '''
+        Board drawing function\nDraws all the pieces on the board\n
+        \t - win (pygame window object): Window displaying the game itself\n
+        \t - color (char): Color of the pieces to draw as a character "w or b"\n
+        '''
         circleColour = (0, 0, 255)
 
         if self.last and color == self.turn:
@@ -107,6 +120,10 @@ class Board:
 
 
     def get_danger_moves(self, color):
+        '''
+        Function to get all moves of the opposing pieces for the current board state\n
+        \t - color (char): Color of the pieces whos turn it is "w or b"
+        '''
         danger_moves = []
         for i in range(self.rows):
             for j in range(self.cols):
@@ -118,6 +135,10 @@ class Board:
         return danger_moves
 
     def is_checked(self, color):
+        '''
+        Check if the color whos is currently taking their turn is in check\n
+        \t - color (char): Color of the pieces whos turn it is "w or b"
+        '''
         self.update_moves()
         danger_moves = self.get_danger_moves(color)
         king_pos = (-1, -1)
@@ -133,6 +154,12 @@ class Board:
         return False
 
     def select(self, col, row, color):
+        '''
+        Select a piece at a row and column on the board of a specific color\n
+        \t - col (int): column of the board where the piece is located\n
+        \t - row (int): row of the board where the piece is located\n
+        \t - color (char): color of the pieces whos turn it is "w or b"
+        '''
         changed = False
         prev = (-1, -1)
         for i in range(self.rows):
@@ -201,12 +228,19 @@ class Board:
                 self.reset_selected()
 
     def reset_selected(self):
+        '''
+        Resets all selected flags to false of all pieces on the board
+        '''
         for i in range(self.rows):
             for j in range(self.cols):
                 if self.board[i][j] != 0:
                     self.board[i][j].selected = False
 
     def check_mate(self, color):
+        '''
+        Determines if the color whos turn it is is in checkmate\n
+        \t - color (char): color of pieces whos turn it is
+        '''
         if self.is_checked(color):
             king = None
             for i in range(self.rows):
@@ -229,6 +263,12 @@ class Board:
         return False
 
     def move(self, start, end, color):
+        '''
+        Attempted to move a piece to a new location on the board\n
+        \t - start (int tuple): starting row and column of the selected piece\n
+        \t - end (int tuple): ending row and column of the selected piece\n
+        \t - color (char): color of the pieces whos turn it is
+        '''
         checkedBefore = self.is_checked(color)
         changed = True
         nBoard = self.board[:]
