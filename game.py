@@ -9,6 +9,9 @@ import sys
 import get_pip
 
 def install(package):
+    '''
+    Installs pip
+    '''
     subprocess.call([sys.executable, "-m", "pip", "install", package])
 
 try:
@@ -53,6 +56,10 @@ turn = "w"
 
 
 def menu_screen(win):
+    '''
+    Display the menu screen\n
+    \t - win (pygame window object): window that the menu is displayed in
+    '''
     global bo, chessbg
 
     menuFontSize = 50
@@ -91,6 +98,15 @@ def menu_screen(win):
 
     
 def redraw_gameWindow(win, bo, p1, p2, color, ready):
+    '''
+    Function to redraw the current state of the pygame window\n
+    \t\n - win (pygame Window object): Window showing the game itself
+    \t\n - bo (Board object): Chess board object holding references to all the pieces
+    \t\n - p1 (int): Time left for player 1 in seconds
+    \t\n - p2 (int): Time left for player 2 in seconds
+    \t\n - color (char): Color of piece whos turn it is
+    \t\n - ready (bool): Whether or not both players are ready for the game to begin
+    '''
     #Font sizes
     fontSize = 30
     largeFontSize = 80
@@ -167,6 +183,10 @@ def redraw_gameWindow(win, bo, p1, p2, color, ready):
 
 
 def end_screen(win, text):
+    '''
+    Function to display the end screen after the game finishes\n
+    \t - text (string): Text to display showing who won
+    '''
     fontSize = 80
     fontColour = (255, 0, 0)
     timeOut = 3000
@@ -195,6 +215,8 @@ def end_screen(win, text):
 
 def click(pos):
     """
+    Function handling a click somewhere on the board to detect which sqaure was selected\n
+    \t - pos (int tuple): 2D tuple containing the position in the window that was clicked\n
     :return: pos (x, y) in range 0-7 0-7
     """
     x = pos[0]
@@ -211,12 +233,18 @@ def click(pos):
 
 
 def connect():
+    '''
+    :returns: Board object shared by the network hosting the chess game
+    '''
     global n
     n = Network()
     return n.board
 
 
 def main():
+    '''
+    Main function for running the game itself
+    '''
     global turn, bo, name
 
     color = bo.start_user
